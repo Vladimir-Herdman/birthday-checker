@@ -1,0 +1,34 @@
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+UserInterfaceState.xcuserstate
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Ide's
+.vscode/
+.idea/
+
+# Executables
+bin/
+
+# C++ objects and libs
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# Personal
+.clangd
+compile_flags.txt
