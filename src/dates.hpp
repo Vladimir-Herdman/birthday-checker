@@ -3,40 +3,24 @@
 
 #include <string>
 
-struct months {
-    using Month = std::string;
+struct Months {
+    const std::string* jan;
+    const std::string* feb;
+    const std::string* mar;
+    const std::string* apr;
+    const std::string* may;
+    const std::string* jun;
+    const std::string* jul;
+    const std::string* aug;
+    const std::string* sep;
+    const std::string* oct;
+    const std::string* nov;
+    const std::string* dec;
 
-    static constexpr Month january[31] = {
-        "testjan"
-    };
-    static constexpr Month february[29] = {
-    };
-    static constexpr Month march[31] = {
-    };
-    static constexpr Month april[30] = {
-    };
-    static constexpr Month may[31] = {
-    };
-    static constexpr Month june[30] = {
-    };
-    static constexpr Month july[31] = {
-    };
-    static constexpr Month august[31] = {
-    };
-    static constexpr Month september[30] = {
-    };
-    static constexpr Month october[31] = {
-    };
-    static constexpr Month november[30] = {
-        [23] = "self",
-    };
-    static constexpr Month december[31] = {
-    };
-
-    static constexpr const Month* m_month_table[12] = {january, february, march, april, may, june, july, august, september, october, november, december};
-    // We use 1 indexing to easify month numbering
-    static constexpr const std::basic_string<char> *const at(const size_t idx) {return m_month_table[idx-1];}
+    const std::string* m_map[12] = {jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec};
+    const std::string* operator[](const size_t idx) {return m_map[idx];}
 };
+extern const Months months;
 
 enum class dates {
     JAN_1 = 0, JAN_2, JAN_3, JAN_4, JAN_5, JAN_6, JAN_7,

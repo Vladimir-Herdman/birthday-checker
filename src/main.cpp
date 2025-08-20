@@ -15,18 +15,24 @@ int main() {
 
     time_t cur_ts = time(NULL);
     const tm cur_dt = (*localtime(&cur_ts));
+    tm potential_dt = cur_dt;
+    potential_dt.tm_mday += 200;
+    mktime(&potential_dt);
+    const time_t cur_month = cur_dt.tm_mon;
     const time_t cur_day = cur_dt.tm_yday; //0-365, 0 is january 1st
     const int cur_year = cur_dt.tm_year;
-    cout << cur_year;
-
-    bool birthday_today = false;
-    cout << months::at(1)[0];
+    cout << cur_month << endl;
+    cout << cur_dt.tm_yday << endl;
+    cout << potential_dt.tm_yday << endl;
 
     char buffer[50];
+    char buffer2[50];
     strftime(buffer, 50, "%B %e, %Y", &cur_dt);
-    cout << buffer;
+    strftime(buffer2, 50, "%B %e, %Y", &potential_dt);
+    cout << buffer << '\n';
+    cout << buffer2 << '\n';
 
-    cout << months::january[DE(JAN_1)];
+    cout << months.jan[DE(JAN_1)];
 
     return 0;
 }
