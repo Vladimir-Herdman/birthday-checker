@@ -37,9 +37,10 @@ void print_today_bday(const tm& cur_dt) {
     } else {cout << "  No birthdays today\n\n";}
 }
 
-void print_nearest_bdays(tm potential_dt, const int how_many_bdays = 3, const int go_back = 0) {
+void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_back = 0) {
     if (how_many_bdays <= 0) {return;}
 
+    tm potential_dt = cur_dt;
     dates::Birthday* next_three = new dates::Birthday[how_many_bdays];
     int birthday_counter = 0;
 
@@ -60,6 +61,7 @@ void print_nearest_bdays(tm potential_dt, const int how_many_bdays = 3, const in
 
             next_three[birthday_counter].names = pot_birth_name;
             next_three[birthday_counter].date = buffer;
+            next_three[birthday_counter].diff_time = difftime(mktime(&potential_dt), mktime(&cur_dt));
             birthday_counter++;
         }
 
@@ -70,7 +72,9 @@ void print_nearest_bdays(tm potential_dt, const int how_many_bdays = 3, const in
     for (int i = 0; i < how_many_bdays; i++) {
         dates::Birthday& group = next_three[i];
         if (!(group.names.empty() || group.date.empty())) {
-            cout << "  * " << group.date << " - " << group.names << '\n';
+            const int days_later = group.diff_time / 86400; //seconds in a day
+            cout << "  * " << group.date << " - " << group.names
+                 << " - in " << days_later << (days_later > 1 ? " days" : " day") << '\n';
         }
     }
 

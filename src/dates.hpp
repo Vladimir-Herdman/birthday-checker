@@ -1,6 +1,7 @@
 #ifndef BIRTHDAYCHECKER_DATES_H
 #define BIRTHDAYCHECKER_DATES_H
 
+#include <ctime>
 #include <string>
 
 namespace dates {
@@ -26,6 +27,7 @@ namespace dates {
     struct Birthday {
         std::string date;
         std::string names;
+        time_t diff_time;
     };
 
     constexpr std::string lookup_num_str[10] = {
