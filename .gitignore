@@ -32,3 +32,6 @@ bin/
 # Personal
 .clangd
 compile_flags.txt
+
+# Project related
+src/dates.cpp
