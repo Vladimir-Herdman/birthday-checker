@@ -28,6 +28,9 @@ namespace dates {
         std::string names;
     };
 
+    constexpr std::string lookup_num_str[10] = {
+        "", "", "two", "three", "four", "five", "six", "seven", "eight", "nine" 
+    };
 }
 
 #endif //BIRTHDAYCHECKER_DATES_H

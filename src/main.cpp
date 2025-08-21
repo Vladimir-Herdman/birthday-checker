@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 
+#include "commandline.hpp"
 #include "dates.hpp"
 
 using namespace std;
@@ -21,16 +22,32 @@ void print_today_bday(const tm& cur_dt) {
 
     bday_today.names = dates::months[cur_month][cur_day-1];
     bday_today.date = buffer;
+    const int name_len = bday_today.names.length();
 
+    cout << "Today:\n";
     if (!(bday_today.names.empty() || bday_today.date.empty())) {
-        cout << bday_today.date << " - " << bday_today.names << '\n';
-    } else {cout << "No birthdays today\n";}
+        if (bday_today.names.contains("self")) {
+            if (name_len >= 5) {bday_today.names.erase(0, 5);} else {bday_today.names.clear();}
+
+            cout << "  * Happy Birthday Today!!!\n";
+            cout << "  * Other's that share today - " << (bday_today.names.empty() ? "No one else\n\n" : bday_today.names+"\n\n");
+        } else {
+            cout << "  " << bday_today.date << " - " << bday_today.names << "\n\n";
+        }
+    } else {cout << "  No birthdays today\n\n";}
 }
 
-void print_nearest_bdays(tm potential_dt) {
-    dates::Birthday next_three[3];
+void print_nearest_bdays(tm potential_dt, const int how_many_bdays = 3, const int go_back = 0) {
+    if (how_many_bdays <= 0) {return;}
+
+    dates::Birthday* next_three = new dates::Birthday[how_many_bdays];
     int birthday_counter = 0;
 
+    if (go_back != 0) {potential_dt.tm_mday -= go_back; mktime(&potential_dt);}
+
+    cout << "Next "
+         << (how_many_bdays < 10 ? dates::lookup_num_str[how_many_bdays] : to_string(how_many_bdays))
+         << (how_many_bdays > 1 ? " birthdays" : "birthday") << ":\n";
     for (int i = 0; i < 365; i++) {
         add_day(potential_dt);
         const int pot_month = potential_dt.tm_mon; //0 indexed, so 0-11
@@ -46,25 +63,43 @@ void print_nearest_bdays(tm potential_dt) {
             birthday_counter++;
         }
 
-        if (birthday_counter == 2) {break;}
+        if (birthday_counter == how_many_bdays) {break;}
     }
 
-    // out here, check for birthday values and print them out with their dates
-    for (int i = 0; i < 2; i++) {
+    //out here, check for birthday values and print them out with their dates
+    for (int i = 0; i < how_many_bdays; i++) {
         dates::Birthday& group = next_three[i];
         if (!(group.names.empty() || group.date.empty())) {
-            cout << group.date << " - " << group.names << '\n';
-       }
-   }
+            cout << "  * " << group.date << " - " << group.names << '\n';
+        }
+    }
+
+    delete[] next_three; //cleanup dynamic array from beginning
 }
 
-int main() {
+int main(const int argc, char* const argv[]) {
     //TODO: add command line to see how far into future to check for bdays (so pass 4 to get next 4 bdays)
+    ios_base::sync_with_stdio(false);
+
+    int bdays_to_get = 3;
+    const Result result = commandLineArguments(argc, argv, bdays_to_get);
+
     time_t cur_ts = time(NULL);
     const tm cur_dt = (*localtime(&cur_ts));
 
-    print_today_bday(cur_dt);
-    print_nearest_bdays(cur_dt);
+    switch (result) {
+        case Result::NO_CHANGES: {
+            print_today_bday(cur_dt);
+            print_nearest_bdays(cur_dt, bdays_to_get);
+            break;
+        }
+        case Result::LIST_PRINT: {
+            print_nearest_bdays(cur_dt, bdays_to_get, 1);
+        }
+        case Result::DO_NOTHING: {
+            break;
+        }
+    }
 
     return 0;
 }

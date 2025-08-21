@@ -2,7 +2,6 @@
 
 namespace {
     constexpr std::string january[31] = {
-        "testjan"
     };
     constexpr std::string february[29] = {
     };
@@ -17,6 +16,7 @@ namespace {
     constexpr std::string july[31] = {
     };
     constexpr std::string august[31] = {
+        [14] = "Ethan Vaughn",
     };
     constexpr std::string september[30] = {
     };
