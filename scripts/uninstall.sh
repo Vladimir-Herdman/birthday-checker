@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+INSTALL_DIR="$HOME/.local/bin"
+
 main() {
-    true; #Use true; as a noop
+    if [[ -d "$INSTALL_DIR" ]]; then
+        rm "$INSTALL_DIR/vh_bday"
+    fi
 }
 
 main
-
