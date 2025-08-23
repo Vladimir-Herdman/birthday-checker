@@ -17,8 +17,8 @@ void print_today_bday(const tm& cur_dt) {
     const time_t cur_month = cur_dt.tm_mon; //0 indexed, so 0-11
     const time_t cur_day = cur_dt.tm_mday; //1 indexed, so 1-31 for month day
 
-    char buffer[18];
-    strftime(buffer, 18, "%B %e, %Y", &cur_dt);
+    char buffer[19];
+    strftime(buffer, 19, "%B %e, %Y", &cur_dt);
 
     bday_today.names = dates::months[cur_month][cur_day-1];
     bday_today.date = buffer;
@@ -56,8 +56,8 @@ void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_b
         const string pot_birth_name = dates::months[pot_month][pot_mday-1];
 
         if (!pot_birth_name.empty()) {
-            char buffer[18];
-            strftime(buffer, 18, "%B %e, %Y", &potential_dt);
+            char buffer[19];
+            strftime(buffer, 19, "%B %e, %Y", &potential_dt);
 
             next_three[birthday_counter].names = pot_birth_name;
             next_three[birthday_counter].date = buffer;

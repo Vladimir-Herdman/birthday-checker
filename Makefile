@@ -1,5 +1,5 @@
 CXX = clang++
-CXXFLAGS = -std=c++23 -O2 -Isrc -Wall -Wextra -Wno-c99-designator
+CXXFLAGS = -std=c++23 -O3 -Isrc -Wall -Wextra -Wno-c99-designator
 
 SRC := $(shell find src/ -name '*.cpp')
 OBJ := $(patsubst src/%.cpp,build/main/%.o,$(SRC))
