@@ -32,10 +32,12 @@ main() {
         local current_shell; current_shell="$SHELL"
         if [[ "$current_shell" == *'zsh'* ]]; then
             printf "%s\n" "  Adding path export to shell configuration file: $HOME/.zshrc"
-            printf "%s" 'export PATH="$PATH:$INSTALL_DIR"' >> "$HOME/.zshrc"
+            printf "%s%s" 'export PATH=$PATH:' "$INSTALL_DIR" >> "$HOME/.zshrc"
+            printf "%s\n" "  You may now call 'vh_bday' to use this script, but open a new shell instance first"
         elif [[ "$current_shell" == *'bash'* ]]; then
             printf "%s\n" "  Adding path export to shell configuration file: $HOME/.bashrc"
-            printf "%s" 'export PATH="$PATH:$INSTALL_DIR"' >> "$HOME/.bashrc"
+            printf "%s%s" 'export PATH=$PATH:' "$INSTALL_DIR" >> "$HOME/.bashrc"
+            printf "%s\n" "  You may now call 'vh_bday' to use this script, but open a new shell instance first"
         else
             printf "%s\n" "  Add '$INSTALL_DIR' directory to shell PATH in order to use script"
         fi
