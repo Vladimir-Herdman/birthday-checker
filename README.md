@@ -13,6 +13,16 @@ where we store birthdays.  May require some recoding in the array section
 to get working for g++, or just go to the C branch to compile there using
 clang or gcc.  To quickly change the compiler, just edit the Makefile variable
 `CXX` to what you use.
+## Branches
+While mainly here a C++ project, even for such a small one, I wanted to see if
+there would be any final result differences if it were instead compiled from C,
+and not C++.  Overall, I found the final C++ binary, on my machine, to be 36K,
+while the pure C binary came out to be 52K.  While local to my machine, still
+interesting to see some difference, though it could be from being more proficient
+in C++ as opposed to C, you can judge that if you want to take a look.
+
+The more_C branch I was just checking if there's a difference in between with using
+C in C++, though I found nothing to note.
 ## CLI Options
 * -h -> Will print the usage help info
 * -b [NUMBER] -> how many birthdays to look ahead, so like get the next 4 birthdays
