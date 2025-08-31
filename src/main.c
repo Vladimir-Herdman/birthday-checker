@@ -25,7 +25,7 @@ void print_today_bday(const struct tm* cur_dt) {
     if (og_name != NULL) {
         const size_t len = strlen(og_name) + 1; //+1 is for null terminator
 
-        strftime(bday_today.date, sizeof(bday_today.date), "%B %e, %Y", cur_dt);
+        strftime(bday_today.date, sizeof(bday_today.date), "%B %d, %Y", cur_dt);
 
         char* copy = malloc(len);
         strcpy(copy, og_name);
@@ -78,8 +78,7 @@ void print_nearest_bdays(struct tm cur_dt, const int how_many_bdays, const int g
         const char* pot_birth_name = get_month(&months, pot_month)[pot_mday-1];
 
         if (pot_birth_name != NULL && !(pot_birth_name[0] == '\0')) {
-            char* date_buf = next_three[birthday_counter].date;
-            strftime(date_buf, sizeof(date_buf), "%B %e, %Y", &potential_dt);
+            strftime(next_three[birthday_counter].date, sizeof(next_three[birthday_counter].date), "%B %d, %Y", &potential_dt);
 
             next_three[birthday_counter].names = malloc(strlen(pot_birth_name) + 1);
 
