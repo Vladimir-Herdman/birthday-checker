@@ -73,8 +73,13 @@ void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_b
         dates::Birthday& group = next_three[i];
         if (!(group.names.empty() || group.date.empty())) {
             const int days_later = group.diff_time / 86400; //seconds in a day
-            cout << "  * " << group.date << " - " << group.names
-                 << " - in " << days_later << (days_later > 1 ? " days" : " day") << '\n';
+            if (days_later == 0) {
+                cout << "  * " << group.date << " - " << group.names
+                     << " - Today!\n";
+            } else {
+                cout << "  * " << group.date << " - " << group.names
+                     << " - in " << days_later << (days_later > 1 ? " days" : " day") << '\n';
+            }
         }
     }
 
@@ -82,7 +87,6 @@ void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_b
 }
 
 int main(const int argc, char* const argv[]) {
-    //TODO: add command line to see how far into future to check for bdays (so pass 4 to get next 4 bdays)
     ios_base::sync_with_stdio(false);
 
     int bdays_to_get = 3;
