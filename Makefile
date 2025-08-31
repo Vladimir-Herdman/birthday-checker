@@ -1,15 +1,15 @@
-CXX = clang++
-CXXFLAGS = -std=c++23 -O3 -Isrc -Wall -Wextra -Wno-c99-designator
+CXX = clang
+CXXFLAGS = -std=gnu17 -O3 -Isrc -Wall -Wextra -Wno-c99-designator
 
-SRC := $(shell find src/ -name '*.cpp')
-OBJ := $(patsubst src/%.cpp,build/main/%.o,$(SRC))
+SRC := $(shell find src/ -name '*.c')
+OBJ := $(patsubst src/%.c,build/main/%.o,$(SRC))
 
 all: $(OBJ)
 	@mkdir -p ./bin
-	@$(CXX) $(CXXFLAGS) $(OBJ) -o ./bin/main
+	@$(CXX) $(CXXFLAGS) -g $(OBJ) -o ./bin/main
 	@strip ./bin/main
 
-build/main/%.o: src/%.cpp
+build/main/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
