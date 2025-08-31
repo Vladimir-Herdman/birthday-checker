@@ -7,6 +7,7 @@ OBJ := $(patsubst src/%.cpp,build/main/%.o,$(SRC))
 all: $(OBJ)
 	@mkdir -p ./bin
 	@$(CXX) $(CXXFLAGS) $(OBJ) -o ./bin/main
+	@strip ./bin/main
 
 build/main/%.o: src/%.cpp
 	@mkdir -p $(dir $@)

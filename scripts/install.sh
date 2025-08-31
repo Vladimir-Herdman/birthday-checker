@@ -23,6 +23,12 @@ main() {
     local root_dir; root_dir="$(get_root_dir_path)"
     cd "$root_dir" || return
 
+    local gen_binary_path; gen_binary_path="$root_dir/bin/main"
+    if ! [[ -e "$gen_binary_path" ]]; then
+        printf '%s\n' "  Creating binary in current birthday project directory"
+        make
+    fi
+
     printf "%s\n" "  Copying binary to installation directory at: $INSTALL_DIR/vh_bday"
     cp -f ./bin/main "$INSTALL_DIR/vh_bday"
 
