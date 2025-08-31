@@ -1,6 +1,6 @@
 CXX = clang
 # -g and -O0 here for debugging purposes, REMOVE in final
-CXXFLAGS = -std=gnu17 -O0 -g -Isrc -Wall -Wextra -Wno-c99-designator
+CXXFLAGS = -std=gnu17 -O3 -Isrc -Wall -Wextra -Wno-c99-designator
 
 SRC := $(shell find src/ -name '*.c')
 OBJ := $(patsubst src/%.c,build/main/%.o,$(SRC))
@@ -8,7 +8,7 @@ OBJ := $(patsubst src/%.c,build/main/%.o,$(SRC))
 all: $(OBJ)
 	@mkdir -p ./bin
 	@$(CXX) $(CXXFLAGS) $(OBJ) -o ./bin/main
-#@strip ./bin/main
+	@strip ./bin/main
 
 build/main/%.o: src/%.c
 	@mkdir -p $(dir $@)
