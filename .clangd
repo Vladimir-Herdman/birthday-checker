@@ -1,0 +1,2 @@
+CompileFlags:
+  Add: [-std=gnu17, -Isrc, -Wno-c99-designator]
