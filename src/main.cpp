@@ -18,9 +18,11 @@ void print_today_bday(const tm& cur_dt) {
     const time_t cur_day = cur_dt.tm_mday; //1 indexed, so 1-31 for month day
 
     char buffer[19];
-    strftime(buffer, 19, "%B %e, %Y", &cur_dt);
+    strftime(buffer, 19, "%B %d, %Y", &cur_dt);
 
-    bday_today.names = dates::months[cur_month][cur_day-1];
+    const char* name_check = dates::months[cur_month][cur_day-1]; //empty in char* array is nullptr, so can't just assign to string
+    bday_today.names = (name_check == nullptr ? "" : name_check);
+
     bday_today.date = buffer;
     const int name_len = bday_today.names.length();
 
@@ -53,11 +55,13 @@ void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_b
         add_day(potential_dt);
         const int pot_month = potential_dt.tm_mon; //0 indexed, so 0-11
         const int pot_mday = potential_dt.tm_mday; //1 indexed, so 1-31 for month day
-        const string pot_birth_name = dates::months[pot_month][pot_mday-1];
+
+        const char* name_check = dates::months[pot_month][pot_mday-1]; //empty in char* array is nullptr, so can't just assign to string
+        const string pot_birth_name = (name_check == nullptr ? "" : name_check);
 
         if (!pot_birth_name.empty()) {
             char buffer[19];
-            strftime(buffer, 19, "%B %e, %Y", &potential_dt);
+            strftime(buffer, 19, "%B %d, %Y", &potential_dt);
 
             next_three[birthday_counter].names = pot_birth_name;
             next_three[birthday_counter].date = buffer;

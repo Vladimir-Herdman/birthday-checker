@@ -6,21 +6,8 @@
 
 namespace dates {
     struct Months {
-        const std::string* jan;
-        const std::string* feb;
-        const std::string* mar;
-        const std::string* apr;
-        const std::string* may;
-        const std::string* jun;
-        const std::string* jul;
-        const std::string* aug;
-        const std::string* sep;
-        const std::string* oct;
-        const std::string* nov;
-        const std::string* dec;
-
-        const std::string* m_map[12] = {jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec};
-        const std::string* operator[](const size_t idx) const {return m_map[idx];}
+        const char* const* m_map[12];
+        const char* const* operator[](const size_t idx) const {return m_map[idx];}
     };
     extern const Months months;
 
@@ -30,7 +17,7 @@ namespace dates {
         time_t diff_time;
     };
 
-    constexpr std::string lookup_num_str[10] = {
+    constexpr const char* lookup_num_str[10] = {
         "", "", "two", "three", "four", "five", "six", "seven", "eight", "nine" 
     };
 }
