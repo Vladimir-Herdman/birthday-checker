@@ -47,12 +47,12 @@ constexpr const char* august[31] = {
 If you need help making the binary available to your system path, take a peek
 at `scripts/install.sh`.  You don't have to use it, it just alleviates installation
 for me as I use `$HOME/.local/bin` for my own binaries, but if you understand the
-process or have somewhere else you want to store it, you can edit the top of the
-file's variable `INSTALL_DIR` to set where you want it installed.
+process or have somewhere else you want to store it, you can edit the `globals.sh`
+file variable `INSTALL_DIR` to set where you want it installed.
 
 You can also change `BINARY_NAME` to set what you want the final binary's name to be,
 though you can also just grab it from the `bin/` directory and rename `main` from there
-if you just compile.
+if you just compile using make and your compiler of choice.
 ## Example Use
 Just for an example use from clone to set up:
 ```bash
