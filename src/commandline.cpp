@@ -1,7 +1,7 @@
 #include "commandline.hpp"
 
 #include <cstdlib>
-#include <iostream>
+#include <stdio.h>
 
 #if defined(__unix__) || defined(__APPLE__)
 #include <unistd.h>
@@ -11,10 +11,10 @@ using namespace std;
 
 namespace {
     Result usage() {
-        cout << "Usage: vh_bday [OPTION]\n";
-        cout << "  -h\tdisplay help text\n";
-        cout << "  -b\tHow many sequential dates to check for upcoming birthdays\n";
-        cout << "  -l\tprint in list format starting from today\n";
+        printf("Usage: vh_bday [OPTION]\n");
+        printf("  -h\tdisplay help text\n");
+        printf("  -b\tHow many sequential dates to check for upcoming birthdays\n");
+        printf("  -l\tprint in list format starting from today\n");
         return Result::DO_NOTHING;
     }
 }
@@ -38,11 +38,11 @@ Result commandLineArguments(const int argc, char* const argv[], int& bdays) {
                 break;
             }
             case ':': {
-                cerr << "Option -" << (char)optopt << " requires an argument\n";
+                fprintf(stderr,"Option -%c requires an argument\n", (char)optopt);
                 return Result::DO_NOTHING;
             }
             case '?': {
-                cerr << "Invalid command line argument passed: -" << opt << '\n';
+                fprintf(stderr, "Invalid command line argument passed: -%d\n", opt);
                 return Result::DO_NOTHING;
             }
         }

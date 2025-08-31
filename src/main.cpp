@@ -2,7 +2,7 @@
  * From here, edit src/dates.cpp to add birthdays
  */
 #include <ctime>
-#include <iostream>
+#include <stdio.h>
 
 #include "commandline.hpp"
 #include "dates.hpp"
@@ -26,17 +26,16 @@ void print_today_bday(const tm& cur_dt) {
     bday_today.date = buffer;
     const int name_len = bday_today.names.length();
 
-    cout << "Today:\n";
+    printf("Today:\n");
     if (!(bday_today.names.empty() || bday_today.date.empty())) {
         if (bday_today.names.contains("self")) {
             if (name_len >= 5) {bday_today.names.erase(0, 5);} else {bday_today.names.clear();}
 
-            cout << "  * Happy Birthday Today!!!\n";
-            cout << "  * Other's that share today - " << (bday_today.names.empty() ? "No one else\n\n" : bday_today.names+"\n\n");
+            printf("  * Happy Birthday Today!!!\n  * Other's that share today - %s\n\n", (bday_today.names.empty() ? "No one else" : bday_today.names).c_str());
         } else {
-            cout << "  " << bday_today.date << " - " << bday_today.names << "\n\n";
+            printf("  %s - %s\n\n", bday_today.date.c_str(), bday_today.names.c_str());
         }
-    } else {cout << "  No birthdays today\n\n";}
+    } else {printf("  No birthdays today\n\n");}
 }
 
 void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_back = 0) {
@@ -48,9 +47,9 @@ void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_b
 
     if (go_back != 0) {potential_dt.tm_mday -= go_back; mktime(&potential_dt);}
 
-    cout << "Next "
-         << (how_many_bdays < 10 ? dates::lookup_num_str[how_many_bdays] : to_string(how_many_bdays))
-         << (how_many_bdays > 1 ? " birthdays" : "birthday") << ":\n";
+    printf("Next %s%s:\n",
+         (how_many_bdays < 10 ? dates::lookup_num_str[how_many_bdays] : to_string(how_many_bdays)).c_str(),
+         (how_many_bdays > 1 ? " birthdays" : "birthday"));
     for (int i = 0; i < 365; i++) {
         add_day(potential_dt);
         const int pot_month = potential_dt.tm_mon; //0 indexed, so 0-11
@@ -78,11 +77,9 @@ void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_b
         if (!(group.names.empty() || group.date.empty())) {
             const int days_later = group.diff_time / 86400; //seconds in a day
             if (days_later == 0) {
-                cout << "  * " << group.date << " - " << group.names
-                     << " - Today!\n";
+                printf("  * %s - %s - Today!\n", group.date.c_str(), group.names.c_str());
             } else {
-                cout << "  * " << group.date << " - " << group.names
-                     << " - in " << days_later << (days_later > 1 ? " days" : " day") << '\n';
+                printf("  * %s - %s - in %d %s\n", group.date.c_str(), group.names.c_str(), days_later, (days_later > 1 ? "days" : "day"));
             }
         }
     }
@@ -91,8 +88,6 @@ void print_nearest_bdays(tm cur_dt, const int how_many_bdays = 3, const int go_b
 }
 
 int main(const int argc, char* const argv[]) {
-    ios_base::sync_with_stdio(false);
-
     int bdays_to_get = 3;
     const Result result = commandLineArguments(argc, argv, bdays_to_get);
 
