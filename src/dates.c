@@ -31,7 +31,8 @@ static const char* july[31] = {
 };
 static const char* august[31] = {
     [1] = "test name, test two",
-    [4] = "another test, and here"
+    [4] = "another test, and here",
+    [30] = "self,John Stamos"
 };
 static const char* september[30] = {
     [1] = "test name, test two",

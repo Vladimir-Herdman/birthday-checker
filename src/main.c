@@ -9,7 +9,7 @@
 #include "dates.h"
 
 
-inline void add_day(struct tm* potential_dt) {
+static inline void add_day(struct tm* potential_dt) {
     potential_dt->tm_mday += 1;
     mktime(potential_dt);
 }
@@ -19,35 +19,37 @@ void print_today_bday(const struct tm* cur_dt) {
     const time_t cur_month = cur_dt->tm_mon; //0 indexed, so 0-11
     const time_t cur_day = cur_dt->tm_mday; //1 indexed, so 1-31 for month day
 
-    strftime(bday_today.date, sizeof(bday_today.date), "%B %e, %Y", cur_dt);
+    printf("Today:\n");
 
     const char* og_name = get_month(&months, cur_month)[cur_day-1];
-    const size_t len = strlen(og_name) + 1; //+1 is for null terminator
-    printf("len is:%zu", len); //REMOVE
+    if (og_name != NULL) {
+        const size_t len = strlen(og_name) + 1; //+1 is for null terminator
 
-    char* copy = malloc(len);
-    strcpy(copy, og_name);
+        strftime(bday_today.date, sizeof(bday_today.date), "%B %e, %Y", cur_dt);
 
-    bday_today.names = copy;
-    const int name_len = strlen(bday_today.names);
+        char* copy = malloc(len);
+        strcpy(copy, og_name);
 
-    printf("Today:\n");
-    if (bday_today.names[0] == '\0' || bday_today.date[0] == '\0') {
-        if (strstr(bday_today.names, "self") != NULL) {
-            if (name_len >= 5) {
-                memmove(bday_today.names, bday_today.names+5, name_len-4);
+        bday_today.names = copy;
+        const int name_len = strlen(bday_today.names);
+
+        if (!(bday_today.names[0] == '\0' || bday_today.date[0] == '\0')) {
+            if (strstr(bday_today.names, "self") != NULL) {
+                if (name_len >= 5) {
+                    memmove(bday_today.names, bday_today.names+5, name_len-4);
+                } else {
+                    bday_today.names[0] = '\0';
+                }
+
+                printf("  * Happy Birthday Today!!!\n");
+                printf("  * Other's that share today - %s\n\n", (bday_today.names[0] == '\0' ? "No one else" : bday_today.names));
             } else {
-                bday_today.names[0] = '\0';
+                printf("  * %s - %s\n\n", bday_today.date, bday_today.names);
             }
+        } else {printf("  * No birthdays today\n\n");}
 
-            printf("  * Happy Birthday Today!!!\n");
-            printf("  * Other's that share today - %s\n\n", (bday_today.names[0] == '\0' ? "No one else" : bday_today.names));
-        } else {
-            printf("  %s - %s\n\n", bday_today.date, bday_today.names);
-        }
-    } else {printf("  No birthdays today\n\n");}
-
-    free(copy);
+        free(copy);
+    } else {printf("  * No birthdays today\n\n");}
 }
 
 void print_nearest_bdays(struct tm cur_dt, const int how_many_bdays, const int go_back) {
@@ -75,7 +77,7 @@ void print_nearest_bdays(struct tm cur_dt, const int how_many_bdays, const int g
         const int pot_mday = potential_dt.tm_mday; //1 indexed, so 1-31 for month day
         const char* pot_birth_name = get_month(&months, pot_month)[pot_mday-1];
 
-        if (!(pot_birth_name[0] == '\0')) {
+        if (pot_birth_name != NULL && !(pot_birth_name[0] == '\0')) {
             char* date_buf = next_three[birthday_counter].date;
             strftime(date_buf, sizeof(date_buf), "%B %e, %Y", &potential_dt);
 
@@ -97,7 +99,7 @@ void print_nearest_bdays(struct tm cur_dt, const int how_many_bdays, const int g
             if (days_later == 0) {
                 printf("  * %s - %s - Today!\n", group->date, group->names);
             } else {
-                printf("  * %s - %s - in %d %s", group->date, group->names, days_later, (days_later > 1 ? " days" : " day"));
+                printf("  * %s - %s - in %d %s\n", group->date, group->names, days_later, (days_later > 1 ? " days" : " day"));
             }
         }
         free(next_three[i].names);
