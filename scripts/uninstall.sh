@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-INSTALL_DIR="$HOME/.local/bin"
+source "$(dirname "$0")/globals.sh"
 
 main() {
     if [[ -d "$INSTALL_DIR" ]]; then
-        rm "$INSTALL_DIR/vh_bday"
+        rm "$INSTALL_DIR/$BINARY_NAME"
     fi
 }
 
